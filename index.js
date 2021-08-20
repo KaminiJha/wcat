@@ -49,7 +49,15 @@ for(let file of filenames) {
         }
         if(flag=="-s")
         {
-            fileData =addSeqNumber(fileData);
+            fileData = addSeqNumber(fileData);
+        }
+        if(flag=="-sn")
+        {
+            fileData = addSeqNumToNonEmpty(fileData);
+        }
+        if(flag=="-rel")
+        {
+            fileData= removeExtraLine(fileData)
         }
     }
     console.log(fileData);
@@ -66,6 +74,48 @@ function addSeqNumber(data)
     for(let i=0;i<arr.length;i++)
     {
         str +=i+1+" "+arr[i]+"\r\n";
+    }
+    return str;
+}
+
+function addSeqNumToNonEmpty(data)
+{
+    let arr=data.split("\r\n");
+    let str="";
+    let k=1
+    for(let i=0;i<arr.length;i++)
+    {
+        if(arr[i]!='')
+        {
+            str +=k+" "+arr[i]+"\n";
+            k++;
+        }
+        else{
+            str+=arr[i]+"\n"
+        }
+        
+    }
+    return str;
+}
+
+function removeExtraLine(data)
+{
+    
+    let arr=data.split("\r\n")
+    let str="1"+" "+arr[0]+"\n";
+    let k=2;
+    for(let i=1;i<arr.length;i++)
+    {
+        if(arr[i]=='' && arr[i-1]!='')
+        {
+            str+=k+arr[i]+"\n";
+            k++;
+        }
+        if(arr[i]!='')
+        {
+            str+=k+arr[i]+"\n";
+            k++;
+        }
     }
     return str;
 }
